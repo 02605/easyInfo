@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<!-- # struts.objectFactory = spring 配置spring管理action的創建 -->
+	<constant name="struts.objectFactory" value="spring"></constant>
+	<!-- text:开发者模式，默认为false -->
+	<constant name="struts.devMode" value="true" />
+	<!-- text:设置浏览器是否缓存，默认为true -->
+	<constant name="struts.serve.static.browserCache" value="false" />
+	<!-- text:当修改struts.xml之后是否自动加载，默认为false。 -->
+	<constant name="struts.configuration.xml.reload" value="true" />
+
+
+	<package name="easyInfo" namespace="/" extends="struts-default">
+		<global-exception-mappings>
+			<exception-mapping result="error"
+				exception="java.lang.RuntimeException"></exception-mapping>
+		</global-exception-mappings>
+		<!-- 由spring管理action class为spring中配置的action的name属性 -->
+
+
+
+
+		<!-- 下方的普通用户的action先关闭了，移到别的package中 -->
+		<!--<action name="UserAction_*" class="UserAction" method="{1}"> <result 
+			name="toHome" type="redirect">/normalUser/index.jsp</result> <result name="error" 
+			>/login.jsp</result> </action> -->
+
+
+
+
+		<action name="TeacherAction_*" class="teacherAction" method="{1}">
+
+			<!-- <result name="list">/admin/users.jsp</result> -->
+			<result name="list">/admin/info.jsp</result>
+		</action>
+		<action name="AdminAction_*" class="adminAction" method="{1}">
+			<result name="toHome" type="redirect">/admin/index.jsp</result>
+			<result name="error">/admin/login.jsp</result>
+		</action>
+		<action name="UserAction_*" class="UserAction" method="{1}">
+			<result name="success" type="redirectAction">UserAction_list</result>
+			<result name="edit">/admin/user-edit.jsp</result>
+			<result name="list">/admin/users.jsp</result>
+
+		</action>
+
+		<action name="QueryConditionAction_*" class="queryConditionAction"
+			method="{1}">
+			<result name="list">/admin/info.jsp</result>
+		</action>
+		<action name="StatConditionAction_*" class="statConditionAction"
+			method="{1}">
+			<result name="list">/admin/info-stat.jsp</result>
+		</action>
+		<action name="BaseDictAction" class="baseDictAction" method="execute"></action>
+	</package>
+	<package name="normalUser" namespace="/normalUser" extends="struts-default">
+		<action name="UserAction_*" class="UserAction" method="{1}">
+			<result name="toHome" type="redirect">/normalUser/index.jsp</result>
+			<result name="error">/login.jsp</result>
+		</action>
+
+		<action name="*Upload" class="methodUploadAction" method="{1}">
+			<!-- 指定（限制）上传文件的类型，定义局部拦截器，修改默认拦截器的属性 "fileUpload.maximumSize" ：限制上传最大的文件大小。 
+				"fileUpload.allowedTypes"：允许上传文件的类型。 "fileUpload.allowedExtensions"：允许上传文件的可扩展文件类型。 -->
+			<!-- <interceptor-ref name="defaultStack"> <param name="fileUpload.maximumSize">500000000</param> 
+				<param name="fileUpload.allowedTypes">application/vnd.ms-excel</param> <param 
+				name="fileUpload.allowedExtensions">.xls,.xlsx</param> </interceptor-ref> -->
+			<result>/index.jsp</result>
+			<!-- 出现错误自动会返回input结果，进入结果视图 -->
+			<result name="input">/error.jsp</result>
+		</action>
+		<action name="use*" class="ExcelAction" method="use{1}">
+			<result>/showResult.jsp</result>
+		</action>
+	</package>
+</struts>	

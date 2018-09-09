@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.domain">
+	<class name="PublicTemplate" table="publicTemplate">
+		<id name="pub_tem_id">
+			<generator class="identity"></generator>
+		</id>
+		<property name="pub_tem_name" not-null="true"></property>
+		<property name="pub_tem_url" not-null="true"></property>
+		<property name="pub_tem_describe"></property>
+		<property name="pub_tem_img" not-null="true"></property>
+	</class>
+</hibernate-mapping>

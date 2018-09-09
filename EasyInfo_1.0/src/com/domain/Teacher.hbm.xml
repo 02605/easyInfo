@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.domain">
+	<class name="Teacher" table="teacher">
+		<id name="tea_id">
+			<!--assigned：自然主键 -->
+			<generator class="assigned"></generator>
+		</id>
+		<property name="tea_name"/>
+		<property name="tea_identityId" />
+		<property name="tea_home" />
+		<property name="tea_phone" />
+		<property name="tea_qq" />
+		<property name="tea_weChat" />
+		<property name="tea_email" />
+		<property name="tea_birthday" />
+		<property name="tea_workDate" />
+		<property name="tea_img" />
+		
+		
+<!-- 		<property name="tea_nation" />
+		<property name="tea_political" />
+		<property name="tea_jobTitel" />
+		<property name="tea_eduBG" />
+		<property name="tea_degree" />
+		<property name="tea_dep" />
+		<property name="tea_enable" />
+		<property name="tea_role" /> -->
+		
+		<many-to-one name="tea_gender" column="tea_gender" class="BaseDict"
+			lazy="false"></many-to-one>
+		<many-to-one name="tea_nation" column="tea_nation" class="BaseDict"
+			lazy="false"></many-to-one>
+		<many-to-one name="tea_political" column="tea_political" class="BaseDict"
+			lazy="false"></many-to-one>
+		<many-to-one name="tea_jobTitel" column="tea_jobTitel" class="BaseDict"
+			lazy="false"></many-to-one>
+		<many-to-one name="tea_eduBG" column="tea_eduBG" class="BaseDict"
+			lazy="false"></many-to-one>
+		<many-to-one name="tea_degree" column="tea_degree" class="BaseDict"
+			lazy="false"></many-to-one>
+		<many-to-one name="tea_role" column="tea_role" class="BaseDict"
+			lazy="false" not-null="true"></many-to-one>
+		<many-to-one name="tea_dep" column="tea_dep" class="BaseDict"
+			lazy="false"></many-to-one>
+		<many-to-one name="tea_enable" column="tea_enable" class="BaseDict"
+			lazy="false" not-null="true"></many-to-one>
+			
+		<set name="TeachingEvaluationS" inverse="true" cascade="delete" lazy="false" >
+			<key column="tea_id"></key>
+			<one-to-many class="TeachingEvaluation"/>
+		</set>
+		
+		<set name="AnnualReviewS" inverse="true" cascade="delete" lazy="false" >
+			<key column="tea_id"></key>
+			<one-to-many class="AnnualReview"/>
+		</set>
+		
+		<set name="ThesisS" inverse="true" cascade="delete" lazy="false">
+			<key column="tea_id"></key>
+			<one-to-many class="Thesis"/>
+		</set>
+		
+		<set name="CompileMateriaS" inverse="true" cascade="delete" lazy="false">
+			<key column="tea_id"></key>
+			<one-to-many class="CompileMateria"/>
+		</set>
+		
+		<set name="PatentS" inverse="true" cascade="delete" lazy="false">
+			<key column="tea_id"></key>
+			<one-to-many class="Patent"/>
+		</set>
+		
+		<set name="VerticalResearchS" inverse="true" cascade="delete" lazy="false">
+			<key column="tea_id"></key>
+			<one-to-many class="VerticalResearch"/>
+		</set>
+		
+		<set name="HorizontalResearchS" inverse="true" cascade="delete" lazy="false">
+			<key column="tea_id"></key>
+			<one-to-many class="HorizontalResearch"/>
+		</set>
+		
+		<set name="InstructedStudentsS" inverse="true" cascade="delete" lazy="false">
+			<key column="tea_id"></key>
+			<one-to-many class="InstructedStudents"/>
+		</set>
+		
+		<set name="PracticeS" inverse="true" cascade="delete" lazy="false">
+			<key column="tea_id"></key>
+			<one-to-many class="Practice"/>
+		</set>
+		
+		<set name="TrainS" inverse="true" cascade="delete" lazy="false">
+			<key column="tea_id"></key>
+			<one-to-many class="Train"/>
+		</set>
+		
+		<set name="RewardS" inverse="true" cascade="delete" lazy="false">
+			<key column="tea_id"></key>
+			<one-to-many class="Reward"/>
+		</set>
+		
+		<set name="InstructorS" inverse="true" cascade="delete" lazy="false">
+			<key column="tea_id"></key>
+			<one-to-many class="Instructor"/>
+		</set>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.domain" >
+	<class name="InstructedStudents" table="instructedstudents" >
+		<id name="ins_stu_id"  >
+			<generator class="identity"></generator>
+		</id>
+		<property name="ins_stu_rank" ></property>
+		<property name="ins_stu_teancherOne" not-null="true"></property>
+		<property name="ins_stu_oneUnit" not-null="true"></property>
+		<property name="ins_stu_teacherTwo" ></property>
+		<property name="ins_stu_twoUnit" ></property>
+		<property name="ins_stu_teacherThree" ></property>
+		<property name="ins_stu_threeUnit" ></property>
+		<property name="ins_stu_num" not-null="true"></property>
+		<property name="ins_stu_name" not-null="true"></property>
+		<property name="ins_stu_comName" not-null="true"></property>
+		<property name="ins_stu_proName" not-null="true"></property>
+		<property name="ins_stu_others" ></property>
+		<property name="ins_stu_organizer" ></property>
+		<property name="ins_stu_rewardDetail" ></property>
+		<property name="ins_stu_scan" ></property>
+		<property name="ins_stu_startTime" not-null="true"></property>
+		<property name="ins_stu_endTime" ></property>
+		<property name="ins_stu_rewardTime" ></property>
+		
+		<many-to-one name="tea_id" column="tea_id" class="Teacher" not-null="true" lazy="false"/>
+		<many-to-one name="ins_stu_type" column="ins_stu_type" class="BaseDict" not-null="true" lazy="false"/>
+		<many-to-one name="ins_stu_reward" column="ins_stu_reward" class="BaseDict"  lazy="false"/>
+		<many-to-one name="ins_stu_rewardLevel" column="ins_stu_rewardLevel" class="BaseDict"  lazy="false"/>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.domain" >
+	<class name="Train" table="train" >
+		<id name="tra_id"  >
+			<generator class="identity"></generator>
+		</id>
+		<property name="tra_address" ></property>
+		<property name="tra_theme" ></property>
+		<property name="tra_content" ></property>
+		<property name="tra_scan" ></property>
+		<property name="tra_startTime" not-null="true"></property>
+		<property name="tra_endTime" ></property>
+		
+		<many-to-one name="tea_id" column="tea_id" class="Teacher" not-null="true" lazy="false"/>
+		<many-to-one name="tra_result" column="tra_result" class="BaseDict"  lazy="false"/>
+	</class>
+</hibernate-mapping>

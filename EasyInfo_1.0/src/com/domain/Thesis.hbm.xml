@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.domain" >
+	<class name="Thesis" table="thesis" >
+		<id name="the_id"  >
+			<generator class="identity"></generator>
+		</id>
+		<property name="the_startNum"  ></property>
+	    <property name="the_endNum"  ></property>
+	    <property name="the_wordNum"  ></property>
+	    <property name="the_rank"  ></property>
+	    <property name="the_firstAuthor" not-null="true" ></property>
+	    <property name="the_otherAuthor"  ></property>
+	    <property name="the_title" not-null="true" ></property>
+	    <property name="the_periodical"  ></property>
+	    <property name="the_reelNum"  ></property>
+	    <property name="the_issue"  ></property>
+	    <property name="the_scan"  ></property>
+	    <property name="the_pubTime"  ></property>
+	    <many-to-one name="tea_id" column="tea_id" class="Teacher" lazy="false" not-null="true"/>
+	    <many-to-one name="the_level" column="the_level" class="BaseDict" lazy="false" not-null="true"/>
+	</class>
+</hibernate-mapping>

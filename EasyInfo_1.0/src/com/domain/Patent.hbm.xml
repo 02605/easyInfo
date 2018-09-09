@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.domain" >
+	<class name="Patent" table="patent" >
+		<id name="pat_id"  >
+			<generator class="identity"></generator>
+		</id>
+		<property name="pat_rank" ></property>
+		<property name="pat_author" not-null="true"></property>
+		<property name="pat_name" not-null="true"></property>
+		<property name="pat_country" not-null="true"></property>
+		<property name="pat_registerNum" not-null="true"></property>
+		<property name="pat_scan" ></property>
+		<property name="pat_pubTime" not-null="true"></property>
+		
+		<many-to-one name="tea_id" column="tea_id" class="Teacher" not-null="true" lazy="false"/>
+		<many-to-one name="pat_type" column="pat_type" class="BaseDict" not-null="true" lazy="false"/>
+	</class>
+</hibernate-mapping>

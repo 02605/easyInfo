@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.domain" >
+	<class name="AnnualReview" table="annualreview" >
+		<id name="ann_rev_id"  >
+			<generator class="identity"></generator>
+		</id>
+		<property name="ann_rev_year" not-null="true"></property>
+		<many-to-one name="tea_id" column="tea_id" class="Teacher" not-null="true" lazy="false"/>
+		<many-to-one name="ann_rev_grade" column="ann_rev_grade" class="BaseDict" not-null="true" lazy="false"/>
+	</class>
+</hibernate-mapping>

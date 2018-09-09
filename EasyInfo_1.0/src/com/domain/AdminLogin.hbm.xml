@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.domain" >
+	<class name="AdminLogin" table="adminlogin" >
+		<id name="tea_id"  >
+			<!--assigned：自然主键  -->
+			<generator class="assigned"></generator>
+		</id>
+		<property name="admin_password"  ></property>
+		<many-to-one name="admin_state" column="admin_state" class="BaseDict"
+			lazy="false"></many-to-one>
+	</class>
+</hibernate-mapping>

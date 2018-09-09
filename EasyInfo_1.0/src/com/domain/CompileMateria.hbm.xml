@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.domain" >
+	<class name="CompileMateria" table="compilemateria" >
+		<id name="cm_id"  >
+			<generator class="identity"></generator>
+		</id>
+		<property name="cm_rank" ></property>
+		<property name="cm_chiefEditor" not-null="true"></property>
+		<property name="cm_subeditor" ></property>
+		<property name="cm_name" not-null="true"></property>
+		<property name="cm_edition" ></property>
+		<property name="cm_location" not-null="true"></property>
+		<property name="cm_publisher" not-null="true"></property>
+		<property name="cm_scan" ></property>
+		<property name="cm_pubTime" not-null="true"></property>
+		<property name="cm_pageNum" ></property>
+		<property name="cm_bearNum" ></property>
+		<many-to-one name="tea_id" column="tea_id" class="Teacher" not-null="true" lazy="false"/>
+	</class>
+</hibernate-mapping>

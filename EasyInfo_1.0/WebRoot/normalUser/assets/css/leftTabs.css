@@ -1,0 +1,14 @@
+.leftTabsUl {
+    text-decoration: none;
+    color: dodgerblue;
+}
+.leftTabsLi {
+       list-style: none;
+       padding: 15px;
+       border: 1px solid #ccc;
+       width: 100px;
+
+}
+li:hover{
+    background-color: #ccc;
+}

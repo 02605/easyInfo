@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.domain" >
+	<class name="HorizontalResearch" table="horizontalresearch" >
+		<id name="hor_id"  >
+			<generator class="identity"></generator>
+		</id>
+		<property name="hor_no" not-null="true"></property>
+		<property name="hor_rank" ></property>
+		<property name="hor_manager" not-null="true"></property>
+		<property name="hor_personnel" ></property>
+		<property name="hor_courseName" not-null="true"></property>
+		<property name="hor_introduction" ></property>
+		<property name="hor_cilentName" ></property>
+		<property name="hor_scan" ></property>
+		<property name="hor_projectTime" not-null="true"></property>
+		<property name="hor_endTime" ></property>
+		<property name="hor_subjcerCost" ></property>
+		<property name="hor_inplactCost" ></property>
+		<many-to-one name="tea_id" column="tea_id" class="Teacher" not-null="true" lazy="false"/>
+	</class>
+</hibernate-mapping>

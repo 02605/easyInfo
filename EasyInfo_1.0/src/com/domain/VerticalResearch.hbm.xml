@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.domain" >
+	<class name="VerticalResearch" table="verticalresearch" >
+		<id name="ver_id"  >
+			<generator class="identity"></generator>
+		</id>
+		<property name="ver_no" not-null="true"></property>
+		<property name="ver_rank" ></property>
+		<property name="ver_manager" not-null="true"></property>
+		<property name="ver_personnel" ></property>
+		<property name="ver_courseName" not-null="true"></property>
+		<property name="ver_introduction" ></property>
+		<property name="ver_projectUnit" not-null="true"></property>
+		<property name="ver_identCon" ></property>
+		<property name="ver_scan" ></property>
+		<property name="ver_projectTime" not-null="true"></property>
+		<property name="ver_endTime" ></property>
+		<property name="ver_identTime" ></property>
+		
+		<many-to-one name="tea_id" column="tea_id" class="Teacher" not-null="true" lazy="false"/>
+		<many-to-one name="ver_nature" column="ver_nature" class="BaseDict" not-null="true" lazy="false"/>
+		<many-to-one name="ver_projectLevel" column="ver_projectLevel" class="BaseDict" not-null="true" lazy="false"/>
+		<many-to-one name="ver_identLevel" column="ver_identLevel" class="BaseDict"  lazy="false"/>
+	</class>
+</hibernate-mapping>

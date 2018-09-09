@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.domain">
+	<class name="PrivateTemplate" table="privateTemplate">
+		<id name="pri_tem_id">
+			<generator class="identity"></generator>
+		</id>
+		<property name="pri_tem_name" not-null="true"></property>
+		<property name="pri_tem_url" not-null="true"></property>
+		<property name="pri_tem_describe"></property>
+		<property name="pri_tem_img" not-null="true"></property>
+
+		<many-to-one name="tea_id" column="tea_id" class="Teacher"
+			not-null="true" lazy="false" />
+	</class>
+</hibernate-mapping>

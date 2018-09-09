@@ -1,0 +1,268 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd ">
+
+
+	<!-- 配置外置数据库配置文件 -->
+	<context:property-placeholder location="classpath:db.properties" />
+	<!-- 配置C3p0连接池 -->
+	<bean name="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="jdbcUrl" value="${jdbc.jdbcUrl}" />
+		<property name="driverClass" value="${jdbc.driverClass}" />
+		<property name="user" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+
+	<!-- 配置事务必须的核心管理器 -->
+	<bean name="transactionManager"
+		class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+
+	<!-- 配置通知 -->
+	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 以方法为单位,指定方法应用什么事务属性 isolation:隔离级别 propagation:传播行为 read-only:是否只读 -->
+			<tx:method name="save*" isolation="REPEATABLE_READ"
+				propagation="REQUIRED" read-only="false" />
+			<tx:method name="persist*" isolation="REPEATABLE_READ"
+				propagation="REQUIRED" read-only="false" />
+			<tx:method name="update*" isolation="REPEATABLE_READ"
+				propagation="REQUIRED" read-only="false" />
+			<tx:method name="modify*" isolation="REPEATABLE_READ"
+				propagation="REQUIRED" read-only="false" />
+			<tx:method name="delete*" isolation="REPEATABLE_READ"
+				propagation="REQUIRED" read-only="false" />
+			<tx:method name="remove*" isolation="REPEATABLE_READ"
+				propagation="REQUIRED" read-only="false" />
+			<tx:method name="get*" isolation="REPEATABLE_READ"
+				propagation="REQUIRED" read-only="true" />
+			<tx:method name="find*" isolation="REPEATABLE_READ"
+				propagation="REQUIRED" read-only="true" />
+		</tx:attributes>
+	</tx:advice>
+	<!-- 配置织入 -->
+	<aop:config>
+		<!-- 配置切点表达式 -->
+		<aop:pointcut expression="execution(* com.service.impl.*ServiceImpl.*(..))"
+			id="pc" />
+		<!-- 配置切面 : 通知+切点 advice-ref:通知的名称 pointcut-ref:切点的名称 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="pc" />
+	</aop:config>
+
+
+
+	<!-- 将sessionfactory配置到spring -->
+	<!-- 一仍然使用外部的hibernate配置文件 不推荐 -->
+	<!-- <bean name="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"> 
+		<property name="configLocation" value="classpath:hibernate.cfg.xml"></property> 
+		</bean> -->
+	<!-- 二、使用spring配置hibernate -->
+	<bean name="sessionFactory"
+		class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<!-- 将C3P0连接池注入到spring -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 配置hibernate基本信息 -->
+		<property name="hibernateProperties">
+			<props>
+				<!-- 必选配置 -->
+				<!-- <prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop> 
+					<prop key="hibernate.connection.url">jdbc:mysql:///easyinfo</prop> <prop 
+					key="hibernate.connection.username">root</prop> <prop key="hibernate.connection.password">rx02605</prop> -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<!-- 可选 -->
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+			</props>
+		</property>
+
+		<!-- 引入orm元数据指定orm元数据所在的包路径 -->
+		<property name="mappingDirectoryLocations" value="classpath:com/domain"></property>
+	</bean>
+
+
+
+	<!-- 配置Action action的scope属性是多例的 -->
+	<bean name="teacherAction" class="com.web.action.TeacherAction"
+		scope="prototype">
+		<property name="teacherService" ref="teacherService"></property>
+	</bean>
+	<bean name="adminAction" class="com.web.action.AdminAction" scope="prototype">
+		<property name="adminService" ref="adminService"></property>
+	</bean>
+	<bean name="baseDictAction" class="com.web.action.BaseDictAction"
+		scope="prototype">
+		<property name="baseDictService" ref="baseDictService"></property>
+	</bean>
+	<bean name="UserAction" class="com.web.action.UserAction" scope="prototype">
+		<property name="adminService" ref="adminService"></property>
+		<property name="baseDictService" ref="baseDictService"></property>
+		<property name="userService" ref="userService"></property>
+		<property name="teacherService" ref="teacherService"></property>
+	</bean>
+	<bean name="queryConditionAction" class="com.web.action.QueryConditionAction"
+		scope="prototype">
+		<property name="teacherService" ref="teacherService"></property>
+		<property name="thesisService" ref="thesisService"></property>
+		<property name="patentService" ref="patentService"></property>
+		<property name="rewardService" ref="rewardService"></property>
+		<property name="compileMateriaService" ref="compileMateriaService"></property>
+		<property name="teachingEvaluationService" ref="teachingEvaluationService"></property>
+		<property name="verticalResearchService" ref="verticalResearchService"></property>
+		<property name="horizontalResearchService" ref="horizontalResearchService"></property>
+		<property name="instructedStudentsService" ref="instructedStudentsService"></property>
+		<property name="practiceService" ref="practiceService"></property>
+		<property name="trainService" ref="trainService"></property>
+		<property name="annualReviewService" ref="annualReviewService"></property>
+		<property name="instructorService" ref="instructorService"></property>
+	</bean>
+	<bean name="statConditionAction" class="com.web.action.StatConditionAction"
+		scope="prototype">
+		<property name="teacherService" ref="teacherService"></property>
+	</bean>
+	<bean name="methodUploadAction" class="com.web.action.methodUploadAction"
+		scope="prototype">
+		<property name="ms" ref="methodsService"></property>
+		<property name="teacher" ref="teacherDao"></property>
+	</bean>
+	<bean name="ExcelAction" class="com.web.action.ExcelAction" scope="prototype">
+		<property name="es" ref="excelService"></property>
+	</bean>
+
+
+	<!-- service配置 -->
+	<bean name="userService" class="com.service.impl.UserServiceImpl">
+		<property name="userDao" ref="userDao"></property>
+		<property name="teacherDao" ref="teacherDao"></property>
+	</bean>
+	
+	<bean name="teacherService" class="com.service.impl.TeacherServiceImpl">
+		<property name="teacherDao" ref="teacherDao"></property>
+		<property name="getListFromDBDao" ref="getListFromDBDao"></property>
+	</bean>
+
+	<bean name="adminService" class="com.service.impl.AdminServiceImpl">
+		<property name="adminDao" ref="adminDao"></property>
+	</bean>
+	<bean name="baseDictService" class="com.service.impl.BaseDictServiceImpl">
+		<property name="baseDictDao" ref="baseDictDao"></property>
+	</bean>
+	<bean name="excelService" class="com.service.impl.ExcelServiceImpl">
+		<property name="getListFromDB" ref="getListFromDBDao"></property>
+		<property name="readExcelBean" ref="ReadExcelBean"></property>
+		<property name="writeExcelBean" ref="WriteExcelBean"></property>
+	</bean>
+	<bean name="methodsService" class="com.service.impl.MethodsServiceImpl">
+		<property name="privateMethodsDao" ref="privateMethodsDao"></property>
+		<property name="publicMethodsDao" ref="publicMethodsDao"></property>
+	</bean>
+	<bean name="thesisService" class="com.service.impl.ThesisServiceImpl">
+		<property name="thesisDao" ref="thesisDao"></property>
+	</bean>
+	<bean name="patentService" class="com.service.impl.PatentServiceImpl">
+		<property name="patentDao" ref="patentDao"></property>
+	</bean>
+	<bean name="rewardService" class="com.service.impl.RewardServiceImpl">
+		<property name="rewardDao" ref="rewardDao"></property>
+	</bean>
+	<bean name="compileMateriaService" class="com.service.impl.CompileMateriaServiceImpl">
+		<property name="compileMateriaDao" ref="compileMateriaDao"></property>
+	</bean>
+	<bean name="teachingEvaluationService" class="com.service.impl.TeachingEvaluationServiceImpl">
+		<property name="teachingEvaluationDao" ref="teachingEvaluationDao"></property>
+	</bean>
+	<bean name="verticalResearchService" class="com.service.impl.VerticalResearchServiceImpl">
+		<property name="verticalResearchDao" ref="verticalResearchDao"></property>
+	</bean>
+	<bean name="horizontalResearchService" class="com.service.impl.HorizontalResearchServiceImpl">
+		<property name="horizontalResearchDao" ref="horizontalResearchDao"></property>
+	</bean>
+	<bean name="instructedStudentsService" class="com.service.impl.InstructedStudentsServiceImpl">
+		<property name="instructedStudentsDao" ref="instructedStudentsDao"></property>
+	</bean>
+	<bean name="practiceService" class="com.service.impl.PracticeServiceImpl">
+		<property name="practiceDao" ref="practiceDao"></property>
+	</bean>
+	<bean name="trainService" class="com.service.impl.TrainServiceImpl">
+		<property name="trainDao" ref="trainDao"></property>
+	</bean>
+	<bean name="annualReviewService" class="com.service.impl.AnnualReviewServiceImpl">
+		<property name="annualReviewDao" ref="annualReviewDao"></property>
+	</bean>
+	<bean name="instructorService" class="com.service.impl.InstructorServiceImpl">
+		<property name="instructorDao" ref="instructorDao"></property>
+	</bean>
+
+
+	<!-- 配置dao -->
+	<bean name="userDao" class="com.dao.impl.UserDaoImpl">
+		<!-- 注入sessionFactory -->
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="teacherDao" class="com.dao.impl.TeacherDaoImpl">
+		<!-- 注入sessionFactory -->
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="adminDao" class="com.dao.impl.AdminDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="baseDictDao" class="com.dao.impl.BaseDictDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="getListFromDBDao" class="com.dao.impl.getListFromDBDaoImpl">
+		<property name="teacherDao" ref="teacherDao"></property>
+	</bean> 
+
+	<bean name="teachingEvaluationDao" class="com.dao.impl.TeachingEvaluationDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="privateMethodsDao" class="com.dao.impl.PrivateMethodsDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="publicMethodsDao" class="com.dao.impl.PublicMethodsDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="thesisDao" class="com.dao.impl.ThesisDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="patentDao" class="com.dao.impl.PatentDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="rewardDao" class="com.dao.impl.RewardDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="compileMateriaDao" class="com.dao.impl.CompileMateriaDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="verticalResearchDao" class="com.dao.impl.VerticalResearchDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="horizontalResearchDao" class="com.dao.impl.HorizontalResearchDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="instructedStudentsDao" class="com.dao.impl.InstructedStudentsDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="practiceDao" class="com.dao.impl.PracticeDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="trainDao" class="com.dao.impl.TrainDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="annualReviewDao" class="com.dao.impl.AnnualReviewDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	<bean name="instructorDao" class="com.dao.impl.InstructorDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+
+	<!-- 配置工具utils类 -->
+	<bean name="ReadExcelBean" class="com.utils.ReadExcelBean">
+	</bean>
+	<bean name="WriteExcelBean" class="com.utils.WriteExcelBean">
+	</bean>
+</beans>

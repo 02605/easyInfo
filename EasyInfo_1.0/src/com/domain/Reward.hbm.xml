@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="com.domain" >
+	<class name="Reward" table="reward" >
+		<id name="rew_id"  >
+			<generator class="identity"></generator>
+		</id>
+		<property name="rew_name" not-null="true"></property>
+		<property name="rew_department" not-null="true"></property>
+		<property name="rew_levelDetail" ></property>
+		<property name="rew_scan" ></property>
+		<property name="rew_time" not-null="true"></property>
+		
+		<many-to-one name="tea_id" column="tea_id" class="Teacher" not-null="true" lazy="false"/>
+		
+		<many-to-one name="rew_level" column="rew_level" class="BaseDict" not-null="true" lazy="false"/>
+		<many-to-one name="rew_family" column="rew_family" class="BaseDict" not-null="true" lazy="false"/>
+		<many-to-one name="rew_ascription" column="rew_ascription" class="BaseDict" not-null="true" lazy="false"/>
+	</class>
+</hibernate-mapping>
